@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Búsqueda en Tiempo Real | VitalInvent</title>
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-dark: #1e40af;
+      --secondary: #4f46e5;
+      --light: #f8fafc;
+      --dark: #1e293b;
+      --text: #334155;
+      --text-light: #64748b;
+      --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #f3f4f6 0%, #e5e7eb 100%);
+      color: var(--text);
+      margin: 0;
+      padding: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 1rem;
+      box-shadow: var(--card-shadow);
+      border: 1px solid rgba(160, 174, 192, 0.15);
+    }
+
+    h1 {
+      color: var(--primary);
+      text-align: center;
+      margin-bottom: 1.5rem;
+      font-weight: 700;
+      font-size: 1.75rem;
+      letter-spacing: -0.5px;
+    }
+
+    .search-container {
+      position: relative;
+      margin-bottom: 1.5rem;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      pointer-events: none;
+    }
+
+    #search {
+      width: 100%;
+      padding: 0.875rem 1rem 0.875rem 3rem;
+      border: 1px solid #d1d5db;
+      border-radius: 0.5rem;
+      font-size: 1rem;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      background-color: var(--light);
+      box-shadow: var(--card-shadow);
+    }
+
+    #search:focus {
+      border-color: var(--primary);
+      outline: none;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      background-color: white;
+    }
+
+    #results {
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      border-radius: 0.5rem;
+      overflow: hidden;
+    }
+
+    #results li {
+      background-color: white;
+      padding: 1rem;
+      margin-bottom: 0.5rem;
+      border-radius: 0.5rem;
+      box-shadow: var(--card-shadow);
+      transition: all 0.3s ease;
+      border-left: 4px solid var(--primary);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    #results li:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--hover-shadow);
+      background-color: #f8fafc;
+    }
+
+    .piso-info {
+      flex: 1;
+    }
+
+    .piso-number {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .piso-name {
+      color: var(--text);
+      margin-left: 0.5rem;
+    }
+
+    .piso-responsable {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+
+    .btn-volver {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1.5rem;
+      background-color: white;
+      color: var(--primary);
+      border: 1px solid var(--primary);
+      border-radius: 0.5rem;
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 1.5rem;
+      transition: all 0.2s;
+    }
+
+    .btn-volver:hover {
+      background-color: #f1f5f9;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 640px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 1.5rem;
+      }
+      
+      h1 {
+        font-size: 1.5rem;
+      }
+      
+      #results li {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Búsqueda de Pisos</h1>
+    
+    <div class="search-container" style="
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+">
+    <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="
+        position: absolute;
+        left: 12px;
+        pointer-events: none;
+        color: #64748b;
+    ">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <input type="text" id="search" placeholder="Buscar piso por número o nombre..." style="
+        width: 100%;
+        padding: 10px 15px 10px 40px;
+        border: 1px solid #e2e8f0;
+        border-radius: 8px;
+        font-size: 14px;
+        background-color: #f8fafc;
+        color: #334155;
+        transition: all 0.3s ease;
+    ">
+    </div>
+    
+    <ul id="results"></ul>
+    
+    <a href="/" class="btn-volver">Volver al Inicio</a>
+  </div>
+
+  <script>
+    document.getElementById('search').addEventListener('keyup', function() {
+      const query = this.value;
+      fetch(`/buscar-piso?query=${query}`)
+        .then(res => res.json())
+        .then(data => {
+          const results = document.getElementById('results');
+          results.innerHTML = '';
+          data.forEach(piso => {
+            const li = document.createElement('li');
+            li.innerHTML = `
+              <div class="piso-info">
+                <span class="piso-number">Piso ${piso.numero_piso}</span>
+                <span class="piso-name">${piso.nombre_piso}</span>
+                <div class="piso-responsable">Responsable: ${piso.responsable_piso}</div>
+              </div>
+            `;
+            results.appendChild(li);
+          });
+        });
+    });
+  </script>
+</body>
+</html>
