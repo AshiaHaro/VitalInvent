@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión | VitalInvent</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --primary-light: #93c5fd;
+            --secondary: #4f46e5;
+            --accent: #3b82f6;
+            --success: #10b981;
+            --error: #ef4444;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --text: #334155;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --hover-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            color: var(--text);
+            line-height: 1.6;
+        }
+        
+        .app-logo {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        
+        .app-logo img {
+            height: 120px;
+        }
+        
+        .auth-container {
+            width: 100%;
+            max-width: 480px;
+            margin: auto;
+            padding: 2.5rem;
+            background: white;
+            border-radius: 16px;
+            box-shadow: var(--hover-shadow);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .auth-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+        
+        .auth-header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+        }
+        
+        .auth-header h2 {
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+            font-size: 1.75rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        
+        .auth-header p {
+            color: var(--text-light);
+            font-size: 1rem;
+            font-weight: 400;
+        }
+        
+        .auth-form .form-group {
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+        
+        .auth-form label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9375rem;
+        }
+        
+        .auth-form .input-wrapper {
+            position: relative;
+        }
+        
+        .auth-form input {
+            width: 100%;
+            padding: 0.9375rem 1rem 0.9375rem 3rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            font-size: 0.9375rem;
+            transition: var(--transition);
+            background-color: var(--light);
+            color: var(--dark);
+            height: 48px;
+        }
+        
+        .auth-form input:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+            background-color: white;
+        }
+        
+        .input-icon {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-light);
+            font-size: 1.1rem;
+        }
+        
+        .auth-form button[type="submit"] {
+            width: 100%;
+            padding: 0.9375rem;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.5px;
+            margin-top: 0.5rem;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        
+        .auth-form button[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--hover-shadow);
+        }
+        
+        .auth-form button[type="submit"]:active {
+            transform: translateY(0);
+        }
+        
+        .auth-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            color: var(--text-light);
+            font-size: 0.9375rem;
+        }
+        
+        .auth-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        
+        .auth-footer a:hover {
+            color: var(--primary-dark);
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 640px) {
+            .auth-container {
+                margin: 1rem;
+                padding: 2rem 1.5rem;
+                border-radius: 12px;
+            }
+            
+            .auth-header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="auth-container">
+        <div class="app-logo">
+            <img src="LOGO1.png" alt="VitalInvent Logo">
+        </div>
+        
+        <div class="auth-header">
+            <h2>Iniciar Sesión</h2>
+            <p>Gestión inteligente de inventario médico</p>
+        </div>
+        
+        <form class="auth-form" action="/login" method="POST">
+            <div class="form-group">
+                <label for="nombre_usuario">Usuario</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-user input-icon"></i>
+                    <input type="text" id="nombre_usuario" name="nombre_usuario" placeholder="Ingresa tu usuario" required>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="password">Contraseña</label>
+                <div class="input-wrapper">
+                    <i class="fas fa-lock input-icon"></i>
+                    <input type="password" id="password" name="password" placeholder="Ingresa tu contraseña" required>
+                </div>
+            </div>
+            
+            <button type="submit">
+                <i class="fas fa-sign-in-alt"></i>
+                Ingresar
+            </button>
+        </form>
+        
+        <div class="auth-footer">
+            <p>¿No tienes cuenta? <a href="/registrar">Regístrate aquí</a></p>
+        </div>
+    </div>
+</body>
+</html>
