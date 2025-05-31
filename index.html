@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio | VitalInvent</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1e40af;
+            --secondary: #4f46e5;
+            --accent: #6366f1;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --text: #334155;
+            --text-light: #64748b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --card-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --card-shadow-hover: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #f1f5f9;
+            margin: 0;
+            padding: 0;
+            color: var(--text);
+            line-height: 1.5;
+        }
+        
+        /* Navbar */
+        #navbar {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        
+        .navbar-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .navbar-brand {
+            color: white;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .navbar-user {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        
+        .user-greeting {
+            font-weight: 500;
+        }
+        
+        .logout-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            transition: all 0.2s;
+        }
+        
+        .logout-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 4rem 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.2;
+        }
+        
+        .hero-text {
+            font-size: 1.25rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+        
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem 3rem;
+        }
+        
+        /* Alertas */
+        #alertas-section {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--card-shadow);
+            border-left: 4px solid var(--danger);
+        }
+        
+        #alertas-section h2 {
+            color: var(--danger);
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.25rem;
+        }
+        
+        .critical-equipment {
+            background-color: #fef2f2;
+            border-radius: 0.375rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--danger);
+        }
+        
+        .critical-equipment h4 {
+            margin: 0 0 0.5rem;
+            color: var(--dark);
+        }
+        
+        .critical-equipment p {
+            margin: 0.25rem 0;
+            font-size: 0.875rem;
+        }
+        
+        /* Status Badges */
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            margin-top: 0.5rem;
+        }
+        
+        .status-active {
+            background-color: #ecfdf5;
+            color: var(--success);
+        }
+        
+        .status-repair {
+            background-color: #fffbeb;
+            color: var(--warning);
+        }
+        
+        .status-out {
+            background-color: #fef2f2;
+            color: var(--danger);
+        }
+        
+        /* Section Titles */
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin: 2.5rem 0 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid #e2e8f0;
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+        
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        
+        /* Cards */
+        .dashboard-card {
+            background-color: white;
+            border-radius: 0.5rem;
+            padding: 1.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all 0.3s ease;
+            border-top: 4px solid var(--primary);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .dashboard-card:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .dashboard-card.highlight {
+            border-top-color: var(--accent);
+            background: linear-gradient(to bottom right, #f8fafc, white);
+        }
+        
+        .card-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .card-icon svg {
+            width: 24px;
+            height: 24px;
+            color: white;
+        }
+        
+        .dashboard-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem;
+            color: var(--dark);
+        }
+        
+        .dashboard-card p {
+            color: var(--text-light);
+            margin: 0 0 1.5rem;
+            flex-grow: 1;
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: all 0.2s;
+            font-size: 0.875rem;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-secondary {
+            background-color: white;
+            color: var(--primary);
+            border: 1px solid var(--primary);
+            margin-top: 0.5rem;
+        }
+        
+        .btn-secondary:hover {
+            background-color: #f1f5f9;
+        }
+        
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* Stats Section */
+        .stats-section {
+            margin-top: 3rem;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .stat-item {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 0.5rem;
+            box-shadow: var(--card-shadow);
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--card-shadow-hover);
+        }
+        
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: block;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        
+        /* Footer */
+        .main-footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+            font-size: 0.875rem;
+            margin-top: 3rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .navbar-container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 1rem 0;
+            }
+            
+            .hero {
+                padding: 3rem 1rem;
+            }
+            
+            .hero h1 {
+                font-size: 1.75rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar"></div>
+    
+    <header class="hero">
+       <div class="hero-content">
+    <div class="logo-container">
+        <img src="LOGO1.png" alt="VitalInvent Logo" class="hero-logo">
+        <h1>Bienvenido a VitalInvent</h1>
+    </div>
+    <p class="hero-text">Sistema integral de gestión de inventario médico. Optimiza el control de equipos, simplifica procesos y garantiza disponibilidad de recursos críticos con nuestra plataforma especializada.</p>
+</div>
+
+<style>
+    .hero-content {
+        max-width: 800px;
+        margin: 0 auto;
+        text-align: center;
+        padding: 2rem 1rem;
+    }
+    
+    .logo-container {
+        margin-bottom: 1.5rem;
+    }
+    
+    .hero-logo {
+        height: 120px;  /* Tamaño reducido del logo */
+        width: auto;
+        margin-bottom: 1rem;
+        object-fit: contain;
+    }
+    
+    h1 {
+        font-size: 2.2rem;
+        color: white;
+        margin-bottom: 1rem;
+    }
+    
+    .hero-text {
+        font-size: 1.1rem;
+        color: rgba(255, 255, 255, 0.9);
+        line-height: 1.6;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+
+    
+</style>
+    </header>
+
+    <main class="container">
+        <!-- Alertas Críticas (solo para médicos/admin) -->
+        <section id="alertas-section" style="display: none; margin-bottom: 30px;">
+            <h2><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Equipos Críticos</h2>
+            <div id="equipos-criticos">
+                <!-- Se llena con JS -->
+            </div>
+        </section>
+
+        <!-- Tarjetas Principales -->
+        <h2 class="section-title">Módulos Principales</h2>
+        <div class="dashboard-grid">
+            <!-- Tarjeta Usuarios -->
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <h3>Usuarios</h3>
+                <p>Gestiona médicos, personal administrativo y pacientes.</p>
+                <div class="card-actions">
+                    <a href="/usuarios" class="btn btn-primary">Administrar</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Equipos Médicos -->
+            <div class="dashboard-card highlight">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zM8 5h8v3H8V5zm8 14v-4H8v4h8z"/>
+                    </svg>
+                </div>
+                <h3>Equipos Médicos</h3>
+                <p>Controla el inventario y estado de los equipos.</p>
+                <div class="card-actions">
+                    <a href="/equipos" class="btn btn-primary">Ver Todos</a>
+                    <a href="/agregar-equipo" class="btn btn-secondary">Agregar</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Infraestructura -->
+            <div class="dashboard-card">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                    </svg>
+                </div>
+                <h3>Infraestructura</h3>
+                <p>Administra pisos y áreas del hospital.</p>
+                <div class="card-actions">
+                    <a href="/pisos" class="btn btn-primary">Ver Pisos</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Mantenimiento -->
+            <div class="dashboard-card" id="card-mantenimiento" style="display: none;">
+                <div class="card-icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M11 15h2v2h-2zm0-8h2v6h-2zm.99-5C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8z"/>
+                    </svg>
+                </div>
+                <h3>Mantenimiento</h3>
+                <p>Gestiona equipos en reparación o fuera de servicio.</p>
+                <div class="card-actions">
+                    <a href="/mantenimiento" class="btn btn-primary">Ver Reportes</a>
+                    <a href="/bitacora-tecnico" class="btn btn-secondary">Reportes</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Nuevas Tarjetas para Médicos -->
+        <h2 class="section-title" id="titulo-reportes-medicos" style="display: none;">Módulos de Equipos</h2>
+        <div class="dashboard-grid" id="seccion-reportes-medicos" style="display: none;">
+            <!-- Tarjeta Reportes Médicos -->
+            <div class="dashboard-card" style="border-top-color: #8b5cf6;">
+                <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14z"/>
+                        <path d="M7 12h2v5H7zm4-7h2v12h-2zm4 5h2v7h-2z"/>
+                    </svg>
+                </div>
+                <h3>Reportar Anomalías</h3>
+                <p>Solicitar revisión de equipos médicos con problemas.</p>
+                <div class="card-actions">
+                    <a href="/reportar-anomalia" class="btn btn-primary">Nuevo Reporte</a>
+                    <a href="/mis-reportes" class="btn btn-secondary">Mis Reportes</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Equipos Críticos -->
+            <div class="dashboard-card" style="border-top-color: #ef4444;">
+                <div class="card-icon" style="background: linear-gradient(135deg, #ef4444 0%, #f87171 100%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 2L4 5v6.09c0 5.05 3.41 9.76 8 10.91 4.59-1.15 8-5.86 8-10.91V5l-8-3zm-1.06 13.54L7.4 12l1.41-1.41 2.12 2.12 4.24-4.24 1.41 1.41-5.64 5.66z"/>
+                    </svg>
+                </div>
+                <h3>Equipos Críticos</h3>
+                <p>Visualiza equipos con reportes pendientes de solución.</p>
+                <div class="card-actions">
+                    <a href="/equipos-criticos" class="btn btn-primary">Ver Listado</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Módulo de Búsqueda -->
+        <h2 class="section-title">Herramientas de Búsqueda</h2>
+        <div class="dashboard-grid">
+            <!-- Tarjeta Búsqueda de Equipos -->
+            <div class="dashboard-card" style="border-top-color: #3b82f6;">
+                <div class="card-icon" style="background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M19 8h-1V3H6v5H5c-1.66 0-3 1.34-3 3v6h4v4h12v-4h4v-6c0-1.66-1.34-3-3-3zM8 5h8v3H8V5zm8 14v-4H8v4h8z"/>
+                    </svg>
+                </div>
+                <h3>Buscar Equipos</h3>
+                <p>Encuentra equipos médicos por nombre, modelo o ubicación.</p>
+                <div class="card-actions">
+                    <a href="/busqueda2" class="btn btn-primary">Búsqueda Avanzada</a>
+                    <a href="/equipos-criticos" class="btn btn-secondary">Equipos Críticos</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Búsqueda de Usuarios -->
+            <div class="dashboard-card" style="border-top-color: #8b5cf6;">
+                <div class="card-icon" style="background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 100%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                    </svg>
+                </div>
+                <h3>Buscar Usuarios</h3>
+                <p>Localiza usuarios del sistema por nombre o rol.</p>
+                <div class="card-actions">
+                    <a href="/busqueda" class="btn btn-primary">Búsqueda Avanzada</a>
+                    <a href="/usuarios" class="btn btn-secondary">Ver Todos</a>
+                </div>
+            </div>
+
+            <!-- Tarjeta Búsqueda de Pisos -->
+            <div class="dashboard-card" style="border-top-color: #10b981;">
+                <div class="card-icon" style="background: linear-gradient(135deg, #10b981 0%, #34d399 100%);">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                        <path d="M12 3L1 9l11 6 9-4.91V17h2V9M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/>
+                    </svg>
+                </div>
+                <h3>Buscar Pisos</h3>
+                <p>Encuentra información por piso o área del hospital.</p>
+                <div class="card-actions">
+                    <a href="/busqueda3" class="btn btn-primary">Búsqueda Avanzada</a>
+                    <a href="/pisos" class="btn btn-secondary">Ver Todos</a>
+                </div>
+            </div>
+        </div>
+<!-- Tarjeta simplificada para carga de médicos -->
+<div class="dashboard-card" style="border-left: 4px solid #ff9800;">
+    <div class="card-icon">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6zm-1 16v-2h2v2h-2zm3-4v-2h2v2h-2zm-6-4h2v2h-2v-2zm6 0v-2h2v2h-2zm-6-4h2v2h-2V6zm6 0V4h2v2h-2z"/>
+        </svg>
+    </div>
+    <h3>Equipos medicos - Excel</h3>
+    <p>Gestión y descarga de equipos medicos mediante archivos Excel</p>
+    <a href="/equipos_medicos.html" class="btn btn-primary">Ir a Gestión</a>
+</div>
+        <!-- Sección de Estadísticas Reales -->
+        <section class="stats-section">
+            <h2 class="section-title">Estadísticas en Tiempo Real</h2>
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <span class="stat-number" id="total-equipos">--</span>
+                    <span class="stat-label">Equipos Totales</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="equipos-activos">--</span>
+                    <span class="stat-label">Equipos Activos</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="equipos-reparacion">--</span>
+                    <span class="stat-label">En Reparación</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="equipos-inactivos">--</span>
+                    <span class="stat-label">Fuera de Servicio</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-number" id="total-pisos">--</span>
+                    <span class="stat-label">Pisos</span>
+                </div>
+                <div class="stat-item" id="stat-reportes-pendientes" style="display: none;">
+                    <span class="stat-number" id="reportes-pendientes">--</span>
+                    <span class="stat-label">Reportes Pendientes</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>Sistema VitalInvent &copy; 2025 - Creado por Angelica Ashia Haro Najar</p>
+    </footer>
+
+    <script>
+        // Cargar navbar
+        /*fetch('/api/user-info')
+            .then(response => response.json())
+            .then(data => {
+                const navbarHtml = `
+                    <nav class="navbar-container">
+                        <a href="/" class="navbar-brand">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                            VitalInvent
+                        </a>
+                        <div class="navbar-user">
+                            <span class="user-greeting">Bienvenido, ${data.name}</span>
+                            <a href="/logout" class="logout-link">Cerrar sesión</a>
+                        </div>
+                    </nav>
+                `;
+                document.getElementById('navbar').innerHTML = navbarHtml;
+            })
+            .catch(error => {
+                console.error('Error loading user info:', error);
+                document.getElementById('navbar').innerHTML = `
+                    <nav class="navbar-container">
+                        <a href="/" class="navbar-brand">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8h1a4 4 0 0 1 0 8h-1"></path><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"></path><line x1="6" y1="1" x2="6" y2="4"></line><line x1="10" y1="1" x2="10" y2="4"></line><line x1="14" y1="1" x2="14" y2="4"></line></svg>
+                            VitalInvent
+                        </a>
+                    </nav>
+                `;
+            });*/
+
+            // Cargar navbar con tu logo personalizado
+fetch('/api/user-info')
+    .then(response => response.json())
+    .then(data => {
+        const navbarHtml = `
+            <nav class="navbar-container">
+                <a href="/" class="navbar-brand">
+                    <img src="/LOGO1.png" alt="Mi Logo" class="custom-logo">
+                </a>
+                <div class="navbar-user">
+                    <span class="user-greeting">Bienvenido, ${data.name}</span>
+                    <a href="/logout" class="logout-link">Cerrar sesión</a>
+                </div>
+            </nav>
+        `;
+        document.getElementById('navbar').innerHTML = navbarHtml;
+    })
+    .catch(error => {
+        console.error('Error loading user info:', error);
+        document.getElementById('navbar').innerHTML = `
+            <nav class="navbar-container">
+                <a href="/" class="navbar-brand">
+                    <img src="/LOGO1.png" alt="Mi Logo" class="custom-logo">
+                </a>
+            </nav>
+        `;
+    });
+
+        // =============================================
+        // Cargar estadísticas REALES y controlar visibilidad
+        // =============================================
+        async function loadStats() {
+            try {
+                const response = await fetch('/api/estadisticas-reales');
+                const data = await response.json();
+
+                // Actualizar estadísticas
+                document.getElementById('total-equipos').textContent = data.totalEquipos || '--';
+                document.getElementById('equipos-activos').textContent = data.equiposActivos || '--';
+                document.getElementById('equipos-reparacion').textContent = data.equiposReparacion || '--';
+                document.getElementById('equipos-inactivos').textContent = data.equiposInactivos || '--';
+                document.getElementById('total-pisos').textContent = data.totalPisos || '--';
+                
+                if (data.reportesPendientes) {
+                    document.getElementById('stat-reportes-pendientes').style.display = 'block';
+                    document.getElementById('reportes-pendientes').textContent = data.reportesPendientes;
+                }
+
+                // Mostrar tarjeta de mantenimiento si es técnico/admin
+                if (data.userRole === 'tecnico' || data.userRole === 'admin') {
+                    document.getElementById('card-mantenimiento').style.display = 'block';
+                }
+
+                // Mostrar sección médica si es médico/admin
+                if (data.userRole === 'medico' || data.userRole === 'admin') {
+                    document.getElementById('titulo-reportes-medicos').style.display = 'block';
+                    document.getElementById('seccion-reportes-medicos').style.display = 'grid';
+                }
+
+                // Mostrar alertas si es médico/admin y hay equipos críticos
+                if ((data.userRole === 'medico' || data.userRole === 'admin') && data.equiposCriticos && data.equiposCriticos.length > 0) {
+                    document.getElementById('alertas-section').style.display = 'block';
+                    const container = document.getElementById('equipos-criticos');
+                    container.innerHTML = data.equiposCriticos.map(equipo => `
+                        <div class="critical-equipment">
+                            <h4>${equipo.nombre_equipo}</h4>
+                            <p><strong>Ubicación:</strong> ${equipo.ubicacion}</p>
+                            <p><strong>Problema:</strong> ${equipo.descripcion}</p>
+                            <span class="status-badge status-out">${equipo.estado}</span>
+                        </div>
+                    `).join('');
+                }
+            } catch (error) {
+                console.error('Error cargando estadísticas:', error);
+                // Mostrar mensaje de error opcional
+            }
+        }
+
+        // Llamar a la función al cargar la página
+        document.addEventListener('DOMContentLoaded', loadStats);
+    </script>
+</body>
+</html>
